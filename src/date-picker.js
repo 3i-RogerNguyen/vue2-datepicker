@@ -42,6 +42,11 @@ export default {
       type: String,
       default: 'date', // date, format, timestamp, or token like 'YYYY-MM-DD'
     },
+    selectedDays: {
+      // selected days of week
+      type: Array,
+      default: [],
+    },
     type: {
       type: String, // ['date', 'datetime', 'time', 'year', 'month', 'week']
       default: 'date',
@@ -343,9 +348,13 @@ export default {
           val,
           type,
           // this.type === 'datetime', click the time should close popup
-          !this.validMultipleType && (type === this.type || type === 'time')
+          //! this.validMultipleType && (type === this.type || type === 'time')
+          false
         );
       }
+    },
+    handleSelectDay(days) {
+      this.$emit('selectDay', days);
     },
     clear() {
       this.emitValue(this.range ? [null, null] : null);
@@ -510,10 +519,12 @@ export default {
       const props = {
         ...pick(this.$props, Object.keys(Component.props)),
         value: this.currentValue,
+        selectedDays: this.selectedDays,
       };
       const on = {
         ...pick(this.$listeners, Component.emits || []),
         select: this.handleSelectDate,
+        selectDay: this.handleSelectDay,
       };
       const content = <Component {...{ props, on, ref: 'picker' }} />;
       return (

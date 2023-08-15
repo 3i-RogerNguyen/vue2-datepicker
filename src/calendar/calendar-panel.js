@@ -30,6 +30,11 @@ export default {
         return date;
       },
     },
+    selectedDays: {
+      // selected days of week
+      type: Array,
+      default: [],
+    },
     defaultPanel: {
       type: String,
     },
@@ -274,10 +279,12 @@ export default {
         getCellClasses={this.getDateClasses}
         getRowClasses={this.getWeekState}
         titleFormat={this.titleFormat}
+        selectedDays={this.selectedDays}
         showWeekNumber={
           typeof this.showWeekNumber === 'boolean' ? this.showWeekNumber : this.type === 'week'
         }
         onSelect={this.handleSelectDate}
+        onSelectDay={days => this.$emit('selectDay', days)}
         onChangepanel={this.handelPanelChange}
         onChangecalendar={this.handleCalendarChange}
       />

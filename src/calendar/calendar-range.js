@@ -1,3 +1,4 @@
+import { getDay } from 'date-fns';
 import CalendarPanel from './calendar-panel';
 import { getValidDate, isValidDate, isValidRangeDate, startOfMonth } from '../util/date';
 
@@ -23,6 +24,7 @@ export default {
       innerValue: [],
       calendars: [],
       hoveredValue: null,
+      selectDays: [...(this.selectedDays || [])],
     };
   },
   computed: {
@@ -72,6 +74,10 @@ export default {
         this.innerValue = [date, new Date(NaN)];
       }
     },
+    handleDaySelect(days) {
+      this.selectDays = days;
+      this.emitDay(this.selectDays);
+    },
     onDateMouseEnter(cell) {
       this.hoveredValue = cell;
     },
@@ -80,6 +86,9 @@ export default {
     },
     emitDate(dates, type) {
       this.$emit('select', dates, type);
+    },
+    emitDay(days) {
+      this.$emit('selectDay', days);
     },
     updateStartCalendar(value) {
       this.updateCalendars([value, this.calendars[1]], 1);
@@ -125,7 +134,9 @@ export default {
         return value > min && value < max;
       };
       if (currentDates.length === 2 && inRange(cellDate, currentDates)) {
-        return classes.concat('in-range');
+        if (this.selectDays.length === 0 || this.selectDays.includes(getDay(cellDate))) {
+          return classes.concat('in-range');
+        }
       }
       if (
         currentDates.length === 1 &&
@@ -151,6 +162,7 @@ export default {
       };
       const on = {
         select: this.handleSelect,
+        selectDay: this.handleDaySelect,
         'update:calendar': index === 0 ? this.updateStartCalendar : this.updateEndCalendar,
       };
       return <calendar-panel {...{ props, on }}></calendar-panel>;

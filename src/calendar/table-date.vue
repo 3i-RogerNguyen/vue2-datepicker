@@ -1,21 +1,37 @@
 <template>
   <div :class="`${prefixClass}-calendar ${prefixClass}-calendar-panel-date`">
+    <table :class="`${prefixClass}-table ${prefixClass}-table-date`" style="height: auto">
+      <thead>
+        <tr>
+          <th
+            v-for="(day, index) in days"
+            :key="day"
+            class="day"
+            :class="{ active: selectDays.includes(index) }"
+            @click="handleDayClick(index)"
+          >
+            {{ day }}
+          </th>
+          <th v-if="showWeekNumber" :class="`${prefixClass}-week-number-header`"></th>
+        </tr>
+      </thead>
+    </table>
     <div :class="`${prefixClass}-calendar-header`">
-      <icon-button
+      <!-- <icon-button
         type="double-left"
         :disabled="isDisabledArrows('last-year')"
         @click="handleIconDoubleLeftClick"
-      ></icon-button>
+      ></icon-button> -->
       <icon-button
         type="left"
         :disabled="isDisabledArrows('last-month')"
         @click="handleIconLeftClick"
       ></icon-button>
-      <icon-button
+      <!-- <icon-button
         type="double-right"
         :disabled="isDisabledArrows('next-year')"
         @click="handleIconDoubleRightClick"
-      ></icon-button>
+      ></icon-button> -->
       <icon-button
         type="right"
         :disabled="isDisabledArrows('next-month')"
@@ -25,11 +41,10 @@
         <button
           v-for="item in yearMonth"
           :key="item.panel"
-          type="button"
+          type="text"
           :class="
             `${prefixClass}-btn ${prefixClass}-btn-text ${prefixClass}-btn-current-${item.panel}`
           "
-          @click="handlePanelChange(item.panel)"
         >
           {{ item.label }}
         </button>
@@ -37,12 +52,6 @@
     </div>
     <div :class="`${prefixClass}-calendar-content`">
       <table :class="`${prefixClass}-table ${prefixClass}-table-date`">
-        <thead>
-          <tr>
-            <th v-if="showWeekNumber" :class="`${prefixClass}-week-number-header`"></th>
-            <th v-for="day in days" :key="day">{{ day }}</th>
-          </tr>
-        </thead>
         <tbody @click="handleCellClick">
           <tr
             v-for="(row, i) in dates"
@@ -107,6 +116,11 @@ export default {
       type: Function,
       default: () => false,
     },
+    selectedDays: {
+      // selected days of week
+      type: Array,
+      default: () => [],
+    },
     calendar: {
       type: Date,
       default: () => new Date(),
@@ -127,6 +141,11 @@ export default {
       type: Function,
       default: () => [],
     },
+  },
+  data() {
+    return {
+      selectDays: [...(this.selectedDays || [])],
+    };
   },
   computed: {
     firstDayOfWeek() {
@@ -223,6 +242,15 @@ export default {
       if (typeof this.onDateMouseLeave === 'function') {
         this.onDateMouseLeave(cell);
       }
+    },
+    handleDayClick(day) {
+      const dayIndex = this.selectDays.findIndex(item => item === day);
+      if (dayIndex >= 0) {
+        this.selectDays.splice(dayIndex, 1);
+      } else {
+        this.selectDays.push(day);
+      }
+      this.$emit('selectDay', this.selectDays);
     },
     handleCellClick(evt) {
       let { target } = evt;
