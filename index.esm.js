@@ -1312,6 +1312,10 @@ var script$2 = {
         return [];
       },
     },
+    showDays: {
+      type: Boolean,
+      default: true,
+    },
   },
   data: function data() {
     return {
@@ -1496,49 +1500,51 @@ var __vue_render__$5 = function __vue_render__() {
       class: _vm.prefixClass + '-calendar ' + _vm.prefixClass + '-calendar-panel-date',
     },
     [
-      _c(
-        'table',
-        {
-          class: _vm.prefixClass + '-table ' + _vm.prefixClass + '-table-date',
-          staticStyle: {
-            height: 'auto',
-          },
-        },
-        [
-          _c('thead', [
-            _c(
-              'tr',
-              [
-                _vm._l(_vm.days, function(day, index) {
-                  return _c(
-                    'th',
-                    {
-                      key: day,
-                      staticClass: 'day',
-                      class: {
-                        active: _vm.selectDays.includes(index),
-                      },
-                      on: {
-                        click: function click($event) {
-                          return _vm.handleDayClick(index);
+      _vm.showDays
+        ? _c(
+            'table',
+            {
+              class: _vm.prefixClass + '-table ' + _vm.prefixClass + '-table-date',
+              staticStyle: {
+                height: 'auto',
+              },
+            },
+            [
+              _c('thead', [
+                _c(
+                  'tr',
+                  [
+                    _vm._l(_vm.days, function(day, index) {
+                      return _c(
+                        'th',
+                        {
+                          key: day,
+                          staticClass: 'day',
+                          class: {
+                            active: _vm.selectDays.includes(index),
+                          },
+                          on: {
+                            click: function click($event) {
+                              return _vm.handleDayClick(index);
+                            },
+                          },
                         },
-                      },
-                    },
-                    [_vm._v('\n          ' + _vm._s(day) + '\n        ')]
-                  );
-                }),
-                _vm._v(' '),
-                _vm.showWeekNumber
-                  ? _c('th', {
-                      class: _vm.prefixClass + '-week-number-header',
-                    })
-                  : _vm._e(),
-              ],
-              2
-            ),
-          ]),
-        ]
-      ),
+                        [_vm._v('\n          ' + _vm._s(day) + '\n        ')]
+                      );
+                    }),
+                    _vm._v(' '),
+                    _vm.showWeekNumber
+                      ? _c('th', {
+                          class: _vm.prefixClass + '-week-number-header',
+                        })
+                      : _vm._e(),
+                  ],
+                  2
+                ),
+              ]),
+            ]
+          )
+        : _vm._e(),
       _vm._v(' '),
       _c(
         'div',
@@ -2243,7 +2249,9 @@ var CalendarPanel = {
     },
   },
   props: {
-    value: {},
+    value: {
+      type: [Date, Array],
+    },
     defaultValue: {
       default: function _default() {
         var date = new Date();
@@ -2297,6 +2305,10 @@ var CalendarPanel = {
     partialUpdate: {
       type: Boolean,
       default: false,
+    },
+    showDays: {
+      type: Boolean,
+      default: true,
     },
   },
   data: function data() {
@@ -2547,6 +2559,7 @@ var CalendarPanel = {
         getCellClasses: this.getDateClasses,
         getRowClasses: this.getWeekState,
         titleFormat: this.titleFormat,
+        showDays: this.showDays,
         selectedDays: this.selectedDays,
         showWeekNumber:
           typeof this.showWeekNumber === 'boolean' ? this.showWeekNumber : this.type === 'week',
@@ -2858,6 +2871,7 @@ var CalendarRange = {
         getClasses: _this2.getRangeClasses,
         // don't update when range is true
         partialUpdate: false,
+        showDays: index === 0,
       });
 
       var on = {

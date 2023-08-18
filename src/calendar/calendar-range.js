@@ -159,6 +159,7 @@ export default {
         getClasses: this.getRangeClasses,
         // don't update when range is true
         partialUpdate: false,
+        showDays: index === 0,
       };
       const on = {
         select: this.handleSelect,

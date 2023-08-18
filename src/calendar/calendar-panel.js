@@ -22,7 +22,9 @@ export default {
     },
   },
   props: {
-    value: {},
+    value: {
+      type: [Date, Array],
+    },
     defaultValue: {
       default() {
         const date = new Date();
@@ -70,6 +72,10 @@ export default {
     partialUpdate: {
       type: Boolean,
       default: false,
+    },
+    showDays: {
+      type: Boolean,
+      default: true,
     },
   },
   data() {
@@ -279,6 +285,7 @@ export default {
         getCellClasses={this.getDateClasses}
         getRowClasses={this.getWeekState}
         titleFormat={this.titleFormat}
+        showDays={this.showDays}
         selectedDays={this.selectedDays}
         showWeekNumber={
           typeof this.showWeekNumber === 'boolean' ? this.showWeekNumber : this.type === 'week'

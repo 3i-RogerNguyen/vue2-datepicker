@@ -1,6 +1,10 @@
 <template>
   <div :class="`${prefixClass}-calendar ${prefixClass}-calendar-panel-date`">
-    <table :class="`${prefixClass}-table ${prefixClass}-table-date`" style="height: auto">
+    <table
+      v-if="showDays"
+      :class="`${prefixClass}-table ${prefixClass}-table-date`"
+      style="height: auto"
+    >
       <thead>
         <tr>
           <th
@@ -140,6 +144,10 @@ export default {
     getCellClasses: {
       type: Function,
       default: () => [],
+    },
+    showDays: {
+      type: Boolean,
+      default: true,
     },
   },
   data() {
