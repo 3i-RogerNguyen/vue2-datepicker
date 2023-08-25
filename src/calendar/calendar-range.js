@@ -97,12 +97,10 @@ export default {
       this.updateCalendars([this.calendars[0], value], 0);
     },
     updateCalendars(calendars, adjustIndex = 1) {
-      const gap = this.getCalendarGap(calendars);
-      if (gap) {
-        const calendar = new Date(calendars[adjustIndex]);
-        calendar.setMonth(calendar.getMonth() + (adjustIndex === 0 ? -gap : gap));
-        calendars[adjustIndex] = calendar;
-      }
+      const calendar = new Date(calendars[adjustIndex === 0 ? 1 : 0]);
+      calendar.setMonth(calendar.getMonth() + (adjustIndex === 0 ? -1 : 1));
+      calendars[adjustIndex] = calendar;
+
       this.calendars = calendars;
     },
     getCalendarGap(calendars) {
@@ -160,7 +158,9 @@ export default {
         // don't update when range is true
         partialUpdate: false,
         showDays: index === 0,
+        hideArrows: index > 0,
       };
+
       const on = {
         select: this.handleSelect,
         selectDay: this.handleDaySelect,

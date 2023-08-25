@@ -1685,7 +1685,6 @@
   };
 
   var __vue_staticRenderFns__ = [];
-  __vue_render__._withStripped = true;
   /* style */
 
   var __vue_inject_styles__ = undefined;
@@ -1752,7 +1751,6 @@
   };
 
   var __vue_staticRenderFns__$1 = [];
-  __vue_render__$1._withStripped = true;
   /* style */
 
   var __vue_inject_styles__$1 = undefined;
@@ -1832,7 +1830,6 @@
   };
 
   var __vue_staticRenderFns__$2 = [];
-  __vue_render__$2._withStripped = true;
   /* style */
 
   var __vue_inject_styles__$2 = undefined;
@@ -1899,7 +1896,6 @@
   };
 
   var __vue_staticRenderFns__$3 = [];
-  __vue_render__$3._withStripped = true;
   /* style */
 
   var __vue_inject_styles__$3 = undefined;
@@ -2005,7 +2001,6 @@
   };
 
   var __vue_staticRenderFns__$4 = [];
-  __vue_render__$4._withStripped = true;
   /* style */
 
   var __vue_inject_styles__$4 = undefined;
@@ -2109,6 +2104,10 @@
       showDays: {
         type: Boolean,
         default: true,
+      },
+      hideArrows: {
+        type: Boolean,
+        default: false,
       },
     },
     data: function data() {
@@ -2346,25 +2345,29 @@
             class: _vm.prefixClass + '-calendar-header',
           },
           [
-            _c('icon-button', {
-              attrs: {
-                type: 'left',
-                disabled: _vm.isDisabledArrows('last-month'),
-              },
-              on: {
-                click: _vm.handleIconLeftClick,
-              },
-            }),
+            !_vm.hideArrows
+              ? _c('icon-button', {
+                  attrs: {
+                    type: 'left',
+                    disabled: _vm.isDisabledArrows('last-month'),
+                  },
+                  on: {
+                    click: _vm.handleIconLeftClick,
+                  },
+                })
+              : _vm._e(),
             _vm._v(' '),
-            _c('icon-button', {
-              attrs: {
-                type: 'right',
-                disabled: _vm.isDisabledArrows('next-month'),
-              },
-              on: {
-                click: _vm.handleIconRightClick,
-              },
-            }),
+            !_vm.hideArrows
+              ? _c('icon-button', {
+                  attrs: {
+                    type: 'right',
+                    disabled: _vm.isDisabledArrows('next-month'),
+                  },
+                  on: {
+                    click: _vm.handleIconRightClick,
+                  },
+                })
+              : _vm._e(),
             _vm._v(' '),
             _c(
               'span',
@@ -2481,7 +2484,6 @@
   };
 
   var __vue_staticRenderFns__$5 = [];
-  __vue_render__$5._withStripped = true;
   /* style */
 
   var __vue_inject_styles__$5 = undefined;
@@ -2736,7 +2738,6 @@
   };
 
   var __vue_staticRenderFns__$6 = [];
-  __vue_render__$6._withStripped = true;
   /* style */
 
   var __vue_inject_styles__$6 = undefined;
@@ -2995,7 +2996,6 @@
   };
 
   var __vue_staticRenderFns__$7 = [];
-  __vue_render__$7._withStripped = true;
   /* style */
 
   var __vue_inject_styles__$7 = undefined;
@@ -3103,6 +3103,10 @@
       showDays: {
         type: Boolean,
         default: true,
+      },
+      hideArrows: {
+        type: Boolean,
+        default: false,
       },
     },
     data: function data() {
@@ -3354,6 +3358,7 @@
           getRowClasses: this.getWeekState,
           titleFormat: this.titleFormat,
           showDays: this.showDays,
+          hideArrows: this.hideArrows,
           selectedDays: this.selectedDays,
           showWeekNumber:
             typeof this.showWeekNumber === 'boolean' ? this.showWeekNumber : this.type === 'week',
@@ -3581,14 +3586,9 @@
       },
       updateCalendars: function updateCalendars(calendars) {
         var adjustIndex = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1;
-        var gap = this.getCalendarGap(calendars);
-
-        if (gap) {
-          var calendar = new Date(calendars[adjustIndex]);
-          calendar.setMonth(calendar.getMonth() + (adjustIndex === 0 ? -gap : gap));
-          calendars[adjustIndex] = calendar;
-        }
-
+        var calendar = new Date(calendars[adjustIndex === 0 ? 1 : 0]);
+        calendar.setMonth(calendar.getMonth() + (adjustIndex === 0 ? -1 : 1));
+        calendars[adjustIndex] = calendar;
         this.calendars = calendars;
       },
       getCalendarGap: function getCalendarGap(calendars) {
@@ -3669,6 +3669,7 @@
           // don't update when range is true
           partialUpdate: false,
           showDays: index === 0,
+          hideArrows: index > 0,
         });
 
         var on = {
@@ -3835,7 +3836,6 @@
   };
 
   var __vue_staticRenderFns__$8 = [];
-  __vue_render__$8._withStripped = true;
   /* style */
 
   var __vue_inject_styles__$8 = undefined;
@@ -4165,7 +4165,6 @@
   };
 
   var __vue_staticRenderFns__$9 = [];
-  __vue_render__$9._withStripped = true;
   /* style */
 
   var __vue_inject_styles__$9 = undefined;
@@ -4349,7 +4348,6 @@
   };
 
   var __vue_staticRenderFns__$a = [];
-  __vue_render__$a._withStripped = true;
   /* style */
 
   var __vue_inject_styles__$a = undefined;
@@ -4685,7 +4683,6 @@
   };
 
   var __vue_staticRenderFns__$b = [];
-  __vue_render__$b._withStripped = true;
   /* style */
 
   var __vue_inject_styles__$b = undefined;

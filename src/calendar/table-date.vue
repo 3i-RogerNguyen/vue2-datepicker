@@ -21,22 +21,14 @@
       </thead>
     </table>
     <div :class="`${prefixClass}-calendar-header`">
-      <!-- <icon-button
-        type="double-left"
-        :disabled="isDisabledArrows('last-year')"
-        @click="handleIconDoubleLeftClick"
-      ></icon-button> -->
       <icon-button
+        v-if="!hideArrows"
         type="left"
         :disabled="isDisabledArrows('last-month')"
         @click="handleIconLeftClick"
       ></icon-button>
-      <!-- <icon-button
-        type="double-right"
-        :disabled="isDisabledArrows('next-year')"
-        @click="handleIconDoubleRightClick"
-      ></icon-button> -->
       <icon-button
+        v-if="!hideArrows"
         type="right"
         :disabled="isDisabledArrows('next-month')"
         @click="handleIconRightClick"
@@ -148,6 +140,10 @@ export default {
     showDays: {
       type: Boolean,
       default: true,
+    },
+    hideArrows: {
+      type: Boolean,
+      default: false,
     },
   },
   data() {

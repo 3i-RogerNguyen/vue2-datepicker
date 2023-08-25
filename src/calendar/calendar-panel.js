@@ -77,6 +77,10 @@ export default {
       type: Boolean,
       default: true,
     },
+    hideArrows: {
+      type: Boolean,
+      default: false,
+    },
   },
   data() {
     const panels = ['date', 'month', 'year'];
@@ -286,6 +290,7 @@ export default {
         getRowClasses={this.getWeekState}
         titleFormat={this.titleFormat}
         showDays={this.showDays}
+        hideArrows={this.hideArrows}
         selectedDays={this.selectedDays}
         showWeekNumber={
           typeof this.showWeekNumber === 'boolean' ? this.showWeekNumber : this.type === 'week'
