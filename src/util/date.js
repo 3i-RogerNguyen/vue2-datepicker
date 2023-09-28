@@ -56,9 +56,11 @@ export function getCalendar({ firstDayOfWeek, year, month }) {
   const calendar = createDate(year, month, 0);
   const lastDayInLastMonth = calendar.getDate();
   // getDay() 0 is Sunday, 1 is Monday
-  const firstDayInLastMonth = lastDayInLastMonth - ((calendar.getDay() + 7 - firstDayOfWeek) % 7);
-  for (let i = firstDayInLastMonth; i <= lastDayInLastMonth; i++) {
-    arr.push(createDate(year, month, i - lastDayInLastMonth));
+  if (calendar.getDay() !== 6) {
+    const firstDayInLastMonth = lastDayInLastMonth - ((calendar.getDay() + 7 - firstDayOfWeek) % 7);
+    for (let i = firstDayInLastMonth; i <= lastDayInLastMonth; i++) {
+      arr.push(createDate(year, month, i - lastDayInLastMonth));
+    }
   }
   // change to the last day of the current month
   calendar.setMonth(month + 1, 0);
@@ -67,11 +69,11 @@ export function getCalendar({ firstDayOfWeek, year, month }) {
     arr.push(createDate(year, month, i));
   }
 
-  const lastMonthLength = lastDayInLastMonth - firstDayInLastMonth + 1;
-  const nextMonthLength = 6 * 7 - lastMonthLength - lastDayInCurrentMonth;
-  for (let i = 1; i <= nextMonthLength; i++) {
-    arr.push(createDate(year, month, lastDayInCurrentMonth + i));
-  }
+  // const lastMonthLength = lastDayInLastMonth - firstDayInLastMonth + 1;
+  // const nextMonthLength = 6 * 7 - lastMonthLength - lastDayInCurrentMonth;
+  // for (let i = 1; i <= nextMonthLength; i++) {
+  //   arr.push(createDate(year, month, lastDayInCurrentMonth + i));
+  // }
   return arr;
 }
 

@@ -32,6 +32,10 @@ export default {
         return date;
       },
     },
+    availableDates: {
+      type: Array,
+      default: [],
+    },
     selectedDays: {
       // selected days of week
       type: Array,
@@ -292,6 +296,7 @@ export default {
         showDays={this.showDays}
         hideArrows={this.hideArrows}
         selectedDays={this.selectedDays}
+        availableDates={this.availableDates}
         showWeekNumber={
           typeof this.showWeekNumber === 'boolean' ? this.showWeekNumber : this.type === 'week'
         }

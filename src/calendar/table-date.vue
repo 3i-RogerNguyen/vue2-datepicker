@@ -65,13 +65,23 @@
               v-for="(cell, j) in row"
               :key="j"
               :data-row-col="`${i},${j}`"
+              style="position: relative"
               class="cell"
-              :class="getCellClasses(cell)"
+              :class="[
+                isDateAvailable(cell) ? '' : 'disabled not-current-month',
+                ...getCellClasses(cell),
+              ]"
               :title="getCellTitle(cell)"
               @mouseenter="handleMouseEnter(cell)"
               @mouseleave="handleMouseLeave(cell)"
             >
-              <div>{{ cell.getDate() }}</div>
+              <div
+                v-if="getCellClasses(cell).includes('today')"
+                style="color: #0057FF !important; position: absolute; top:0; left: 0; right: 0; font-size: 7px"
+              >
+                Today
+              </div>
+              <div>{{ cell.getMonth() === calendar.getMonth() ? cell.getDate() : '' }}</div>
             </td>
           </tr>
         </tbody>
@@ -111,6 +121,10 @@ export default {
     disabledCalendarChanger: {
       type: Function,
       default: () => false,
+    },
+    availableDates: {
+      type: Array,
+      default: () => [],
     },
     selectedDays: {
       // selected days of week
@@ -277,6 +291,9 @@ export default {
     },
     getWeekNumber(date) {
       return this.getWeek(date, this.getLocale().formatLocale);
+    },
+    isDateAvailable(date) {
+      return !!this.availableDates.find(availDate => availDate.isSame(date, 'day'));
     },
   },
 };

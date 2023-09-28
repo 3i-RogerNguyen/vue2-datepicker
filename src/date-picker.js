@@ -42,6 +42,10 @@ export default {
       type: String,
       default: 'date', // date, format, timestamp, or token like 'YYYY-MM-DD'
     },
+    availableDates: {
+      type: Array,
+      default: [],
+    },
     selectedDays: {
       // selected days of week
       type: Array,
@@ -520,6 +524,7 @@ export default {
         ...pick(this.$props, Object.keys(Component.props)),
         value: this.currentValue,
         selectedDays: this.selectedDays,
+        availableDates: this.availableDates,
       };
       const on = {
         ...pick(this.$listeners, Component.emits || []),

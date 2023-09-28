@@ -1127,10 +1127,12 @@
     var calendar = createDate$1(year, month, 0);
     var lastDayInLastMonth = calendar.getDate(); // getDay() 0 is Sunday, 1 is Monday
 
-    var firstDayInLastMonth = lastDayInLastMonth - ((calendar.getDay() + 7 - firstDayOfWeek) % 7);
+    if (calendar.getDay() !== 6) {
+      var firstDayInLastMonth = lastDayInLastMonth - ((calendar.getDay() + 7 - firstDayOfWeek) % 7);
 
-    for (var i = firstDayInLastMonth; i <= lastDayInLastMonth; i++) {
-      arr.push(createDate$1(year, month, i - lastDayInLastMonth));
+      for (var i = firstDayInLastMonth; i <= lastDayInLastMonth; i++) {
+        arr.push(createDate$1(year, month, i - lastDayInLastMonth));
+      }
     } // change to the last day of the current month
 
     calendar.setMonth(month + 1, 0);
@@ -1138,14 +1140,11 @@
 
     for (var _i = 1; _i <= lastDayInCurrentMonth; _i++) {
       arr.push(createDate$1(year, month, _i));
-    }
-
-    var lastMonthLength = lastDayInLastMonth - firstDayInLastMonth + 1;
-    var nextMonthLength = 6 * 7 - lastMonthLength - lastDayInCurrentMonth;
-
-    for (var _i2 = 1; _i2 <= nextMonthLength; _i2++) {
-      arr.push(createDate$1(year, month, lastDayInCurrentMonth + _i2));
-    }
+    } // const lastMonthLength = lastDayInLastMonth - firstDayInLastMonth + 1;
+    // const nextMonthLength = 6 * 7 - lastMonthLength - lastDayInCurrentMonth;
+    // for (let i = 1; i <= nextMonthLength; i++) {
+    //   arr.push(createDate(year, month, lastDayInCurrentMonth + i));
+    // }
 
     return arr;
   }
@@ -1685,6 +1684,7 @@
   };
 
   var __vue_staticRenderFns__ = [];
+  __vue_render__._withStripped = true;
   /* style */
 
   var __vue_inject_styles__ = undefined;
@@ -1751,6 +1751,7 @@
   };
 
   var __vue_staticRenderFns__$1 = [];
+  __vue_render__$1._withStripped = true;
   /* style */
 
   var __vue_inject_styles__$1 = undefined;
@@ -1830,6 +1831,7 @@
   };
 
   var __vue_staticRenderFns__$2 = [];
+  __vue_render__$2._withStripped = true;
   /* style */
 
   var __vue_inject_styles__$2 = undefined;
@@ -1896,6 +1898,7 @@
   };
 
   var __vue_staticRenderFns__$3 = [];
+  __vue_render__$3._withStripped = true;
   /* style */
 
   var __vue_inject_styles__$3 = undefined;
@@ -2001,6 +2004,7 @@
   };
 
   var __vue_staticRenderFns__$4 = [];
+  __vue_render__$4._withStripped = true;
   /* style */
 
   var __vue_inject_styles__$4 = undefined;
@@ -2066,6 +2070,12 @@
         type: Function,
         default: function _default() {
           return false;
+        },
+      },
+      availableDates: {
+        type: Array,
+        default: function _default() {
+          return [];
         },
       },
       selectedDays: {
@@ -2273,6 +2283,11 @@
       getWeekNumber: function getWeekNumber(date) {
         return this.getWeek(date, this.getLocale().formatLocale);
       },
+      isDateAvailable: function isDateAvailable(date) {
+        return !!this.availableDates.find(function(availDate) {
+          return availDate.isSame(date, 'day');
+        });
+      },
     },
   };
 
@@ -2452,7 +2467,12 @@
                             {
                               key: j,
                               staticClass: 'cell',
-                              class: _vm.getCellClasses(cell),
+                              class: [
+                                _vm.isDateAvailable(cell) ? '' : 'disabled not-current-month',
+                              ].concat(_vm.getCellClasses(cell)),
+                              staticStyle: {
+                                position: 'relative',
+                              },
                               attrs: {
                                 'data-row-col': i + ',' + j,
                                 title: _vm.getCellTitle(cell),
@@ -2466,7 +2486,34 @@
                                 },
                               },
                             },
-                            [_c('div', [_vm._v(_vm._s(cell.getDate()))])]
+                            [
+                              _vm.getCellClasses(cell).includes('today')
+                                ? _c(
+                                    'div',
+                                    {
+                                      staticStyle: {
+                                        color: '#0057FF !important',
+                                        position: 'absolute',
+                                        top: '0',
+                                        left: '0',
+                                        right: '0',
+                                        'font-size': '7px',
+                                      },
+                                    },
+                                    [_vm._v('\n              Today\n            ')]
+                                  )
+                                : _vm._e(),
+                              _vm._v(' '),
+                              _c('div', [
+                                _vm._v(
+                                  _vm._s(
+                                    cell.getMonth() === _vm.calendar.getMonth()
+                                      ? cell.getDate()
+                                      : ''
+                                  )
+                                ),
+                              ]),
+                            ]
                           );
                         }),
                       ],
@@ -2484,6 +2531,7 @@
   };
 
   var __vue_staticRenderFns__$5 = [];
+  __vue_render__$5._withStripped = true;
   /* style */
 
   var __vue_inject_styles__$5 = undefined;
@@ -2738,6 +2786,7 @@
   };
 
   var __vue_staticRenderFns__$6 = [];
+  __vue_render__$6._withStripped = true;
   /* style */
 
   var __vue_inject_styles__$6 = undefined;
@@ -2996,6 +3045,7 @@
   };
 
   var __vue_staticRenderFns__$7 = [];
+  __vue_render__$7._withStripped = true;
   /* style */
 
   var __vue_inject_styles__$7 = undefined;
@@ -3052,6 +3102,10 @@
           date.setHours(0, 0, 0, 0);
           return date;
         },
+      },
+      availableDates: {
+        type: Array,
+        default: [],
       },
       selectedDays: {
         // selected days of week
@@ -3360,6 +3414,7 @@
           showDays: this.showDays,
           hideArrows: this.hideArrows,
           selectedDays: this.selectedDays,
+          availableDates: this.availableDates,
           showWeekNumber:
             typeof this.showWeekNumber === 'boolean' ? this.showWeekNumber : this.type === 'week',
         },
@@ -3666,6 +3721,7 @@
           value: _this2.innerValue,
           defaultValue: _this2.defaultValues[index],
           getClasses: _this2.getRangeClasses,
+          availableDates: _this2.availableDates,
           // don't update when range is true
           partialUpdate: false,
           showDays: index === 0,
@@ -3836,6 +3892,7 @@
   };
 
   var __vue_staticRenderFns__$8 = [];
+  __vue_render__$8._withStripped = true;
   /* style */
 
   var __vue_inject_styles__$8 = undefined;
@@ -4165,6 +4222,7 @@
   };
 
   var __vue_staticRenderFns__$9 = [];
+  __vue_render__$9._withStripped = true;
   /* style */
 
   var __vue_inject_styles__$9 = undefined;
@@ -4348,6 +4406,7 @@
   };
 
   var __vue_staticRenderFns__$a = [];
+  __vue_render__$a._withStripped = true;
   /* style */
 
   var __vue_inject_styles__$a = undefined;
@@ -4683,6 +4742,7 @@
   };
 
   var __vue_staticRenderFns__$b = [];
+  __vue_render__$b._withStripped = true;
   /* style */
 
   var __vue_inject_styles__$b = undefined;
@@ -5077,6 +5137,10 @@
       valueType: {
         type: String,
         default: 'date', // date, format, timestamp, or token like 'YYYY-MM-DD'
+      },
+      availableDates: {
+        type: Array,
+        default: [],
       },
       selectedDays: {
         // selected days of week
@@ -5664,6 +5728,7 @@
         var props = _objectSpread2({}, pick(this.$props, Object.keys(Component.props)), {
           value: this.currentValue,
           selectedDays: this.selectedDays,
+          availableDates: this.availableDates,
         });
 
         var on = _objectSpread2({}, pick(this.$listeners, Component.emits || []), {

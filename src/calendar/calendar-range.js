@@ -155,6 +155,7 @@ export default {
         value: this.innerValue,
         defaultValue: this.defaultValues[index],
         getClasses: this.getRangeClasses,
+        availableDates: this.availableDates,
         // don't update when range is true
         partialUpdate: false,
         showDays: index === 0,
