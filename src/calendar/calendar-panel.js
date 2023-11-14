@@ -244,7 +244,8 @@ export default {
         return 'disabled';
       }
       if (this.innerValue.some(v => v.getTime() === cellDate.getTime())) {
-        return 'active';
+        if (!this.selectedDays || this.selectedDays.length === 0) return 'active';
+        return this.selectedDays.includes(cellDate.getDay()) ? 'active' : '';
       }
       return '';
     },

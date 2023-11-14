@@ -890,7 +890,6 @@ var __vue_render__ = function __vue_render__() {
 };
 
 var __vue_staticRenderFns__ = [];
-__vue_render__._withStripped = true;
 /* style */
 
 var __vue_inject_styles__ = undefined;
@@ -957,7 +956,6 @@ var __vue_render__$1 = function __vue_render__() {
 };
 
 var __vue_staticRenderFns__$1 = [];
-__vue_render__$1._withStripped = true;
 /* style */
 
 var __vue_inject_styles__$1 = undefined;
@@ -1037,7 +1035,6 @@ var __vue_render__$2 = function __vue_render__() {
 };
 
 var __vue_staticRenderFns__$2 = [];
-__vue_render__$2._withStripped = true;
 /* style */
 
 var __vue_inject_styles__$2 = undefined;
@@ -1104,7 +1101,6 @@ var __vue_render__$3 = function __vue_render__() {
 };
 
 var __vue_staticRenderFns__$3 = [];
-__vue_render__$3._withStripped = true;
 /* style */
 
 var __vue_inject_styles__$3 = undefined;
@@ -1210,7 +1206,6 @@ var __vue_render__$4 = function __vue_render__() {
 };
 
 var __vue_staticRenderFns__$4 = [];
-__vue_render__$4._withStripped = true;
 /* style */
 
 var __vue_inject_styles__$4 = undefined;
@@ -1735,7 +1730,6 @@ var __vue_render__$5 = function __vue_render__() {
 };
 
 var __vue_staticRenderFns__$5 = [];
-__vue_render__$5._withStripped = true;
 /* style */
 
 var __vue_inject_styles__$5 = undefined;
@@ -1990,7 +1984,6 @@ var __vue_render__$6 = function __vue_render__() {
 };
 
 var __vue_staticRenderFns__$6 = [];
-__vue_render__$6._withStripped = true;
 /* style */
 
 var __vue_inject_styles__$6 = undefined;
@@ -2249,7 +2242,6 @@ var __vue_render__$7 = function __vue_render__() {
 };
 
 var __vue_staticRenderFns__$7 = [];
-__vue_render__$7._withStripped = true;
 /* style */
 
 var __vue_inject_styles__$7 = undefined;
@@ -2555,7 +2547,8 @@ var CalendarPanel = {
           return v.getTime() === cellDate.getTime();
         })
       ) {
-        return 'active';
+        if (!this.selectedDays || this.selectedDays.length === 0) return 'active';
+        return this.selectedDays.includes(cellDate.getDay()) ? 'active' : '';
       }
 
       return '';
@@ -2918,6 +2911,7 @@ var CalendarRange = {
     var h = arguments[0];
     var calendarRange = this.calendars.map(function(calendar, index) {
       var props = _objectSpread2({}, _this2.$props, {
+        selectedDays: _this2.selectDays,
         calendar: calendar,
         value: _this2.innerValue,
         defaultValue: _this2.defaultValues[index],
@@ -3093,7 +3087,6 @@ var __vue_render__$8 = function __vue_render__() {
 };
 
 var __vue_staticRenderFns__$8 = [];
-__vue_render__$8._withStripped = true;
 /* style */
 
 var __vue_inject_styles__$8 = undefined;
@@ -3423,7 +3416,6 @@ var __vue_render__$9 = function __vue_render__() {
 };
 
 var __vue_staticRenderFns__$9 = [];
-__vue_render__$9._withStripped = true;
 /* style */
 
 var __vue_inject_styles__$9 = undefined;
@@ -3607,7 +3599,6 @@ var __vue_render__$a = function __vue_render__() {
 };
 
 var __vue_staticRenderFns__$a = [];
-__vue_render__$a._withStripped = true;
 /* style */
 
 var __vue_inject_styles__$a = undefined;
@@ -3943,7 +3934,6 @@ var __vue_render__$b = function __vue_render__() {
 };
 
 var __vue_staticRenderFns__$b = [];
-__vue_render__$b._withStripped = true;
 /* style */
 
 var __vue_inject_styles__$b = undefined;

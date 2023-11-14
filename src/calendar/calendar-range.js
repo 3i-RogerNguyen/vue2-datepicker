@@ -151,6 +151,7 @@ export default {
     const calendarRange = this.calendars.map((calendar, index) => {
       const props = {
         ...this.$props,
+        selectedDays: this.selectDays,
         calendar,
         value: this.innerValue,
         defaultValue: this.defaultValues[index],
