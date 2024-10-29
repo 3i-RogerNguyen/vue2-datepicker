@@ -76,7 +76,7 @@
               @mouseleave="handleMouseLeave(cell)"
             >
               <div
-                v-if="getCellClasses(cell).includes('today')"
+                v-if="showTodayText(cell)"
                 style="color: #0057FF !important; position: absolute; top:0; left: 0; right: 0; font-size: 7px"
               >
                 Today
@@ -294,6 +294,11 @@ export default {
     },
     isDateAvailable(date) {
       return !!this.availableDates.find(availDate => availDate.isSame(date, 'day'));
+    },
+    showTodayText(cell) {
+      return (
+        this.getCellClasses(cell).includes('today') && cell.getMonth() === this.calendar.getMonth()
+      );
     },
   },
 };
